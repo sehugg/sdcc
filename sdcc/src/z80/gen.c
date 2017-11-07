@@ -12220,8 +12220,13 @@ genZ80Code (iCode * lic)
         {
           if (options.debug)
             debugFile->writeCLine (ic);
-          if (!options.noCcodeInAsm)
-            emit2 (";%s:%d: %s", ic->filename, ic->lineno, printCLine (ic->filename, ic->lineno));
+          if (!options.noCcodeInAsm) {
+            if (!options.c1mode) {
+              emit2 (";%s:%d: %s", ic->filename, ic->lineno, printCLine (ic->filename, ic->lineno));
+            } else {
+              emit2 (";<stdin>:%d:", ic->lineno);
+            }
+          }
           cln = ic->lineno;
         }
       if (options.iCodeInAsm)
